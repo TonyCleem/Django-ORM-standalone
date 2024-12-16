@@ -10,6 +10,8 @@ django.setup()
 
 from datacenter.models import Passcard
 from datacenter.models import Visit # noqa: E402
+from datacenter.models import is_visit_long
+
 
 
 if __name__ == '__main__':
@@ -51,8 +53,52 @@ if __name__ == '__main__':
     #     entered_at = f"{entered_at.day} {months[entered_at.month]} {entered_at.year} г. {entered_at.strftime('%H:%M')}"
 
 
-        # Шаг 13
 
+
+    # # Шаг 13
+    # passcard = Passcard.objects.all()[1]
+    # visits = Visit.objects.filter(passcard=passcard, leaved_at__isnull=False)
+    # print(visits)
+
+    # Шаг 14
+    visits = Visit.objects.all()
+
+    long_visits = []
+   
+    for visit in visits:
+        duration_visit_time = get_duration(visit)
+        duration_visit_time = int(duration_visit_time.total_seconds())
+        visit_time_in_min = int(duration_visit_time // 60)
+
+        if is_visit_long(visit_time_in_min, minutes=10):
+            long_visits.append(visit)
+        if is_visit_long(visit_time_in_min, minutes=1000):
+            long_visits.append(visit)
+
+
+    print(long_visits)
+    
+
+
+        
+            
+           
+
+
+        
+
+
+       
+
+
+
+
+
+
+
+
+    
+    
 
 
 
